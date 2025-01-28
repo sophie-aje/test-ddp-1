@@ -3,4 +3,4 @@ pandas
 streamlit
 requests
 gspread
-openpxyl
+openpyxl
