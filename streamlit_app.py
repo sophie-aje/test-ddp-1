@@ -6,11 +6,9 @@ import io
 
 # Add a header for the app
 st.title("Ngee Ann Real-Time Bus Arrival Tracker")
-st.markdown("""
-Welcome to the Ngee Ann Polytechnic Real-Time Bus Arrival Tracker! 
+st.markdown(""" Welcome to the Ngee Ann Polytechnic Real-Time Bus Arrival Tracker! 
 This app provides real-time bus arrival information for buses serving Ngee Ann Polytechnic. 
-Stay updated and plan your journey with ease.
-""")
+Stay updated and plan your journey with ease. """)
 
 # Load data without caching
 def load_data():
@@ -141,7 +139,15 @@ for i, code in enumerate(bus_stop_dict.keys()):
 
                 # Sort by NextBusGroup to ensure correct order
                 bus_data = bus_data.sort_values("NextBusGroup")
-                # Create a horizontal layout for arrival times
+                # Initialize session state for auto-refresh 
+                if "last_refresh" not in st.session_state: 
+                    st.session_state.last_refresh = time.time() 
+                
+                # Button to refresh the app
+                if st.button("🔄 Refresh Data"):
+                    st.cache_data.clear()  # Clear cache so the latest file is loaded
+                    st.rerun()  # Fully refresh the app
+
                     # Create a horizontal layout for arrival times
                 cols = st.columns(len(bus_data))  # Create columns for each arrival
                 for idx, (_, row) in enumerate(bus_data.iterrows()):
